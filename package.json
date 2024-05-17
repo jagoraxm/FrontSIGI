@@ -3,10 +3,9 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "proxy": "http://localhost:5173",
   "scripts": {
     "dev": "vite",
-    "build": "vite build --omit=dev`",
+    "build": "vite build --omit=dev",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "start": "serve dist -s -n -L -p %PORT"
