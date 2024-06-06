@@ -2,6 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 import FormData from "form-data";
 import { useNavigate } from "react-router-dom";
+import { Alert } from "@material-tailwind/react";
 
 const Register = () => {
 
@@ -10,6 +11,9 @@ const Register = () => {
     const [passConfInput, setPassConfInput] = useState("")
     const [nameInput, setNameInput] = useState("")
     const [userInput, setUserInput] = useState("")
+    const [open, setOpen] = useState(false)
+    const [messageAlert, setMessageAlert] = useState("")
+    const [color, setColor] = useState("blue")
 
     const navigate = useNavigate();
 
@@ -38,14 +42,25 @@ const Register = () => {
         axios.request(config)
         .then((response) => {
             console.log(JSON.stringify(response.data))
-            navigate('/login')
+            if(response.data.result === "ok"){
+                setColor("green")
+                setMessageAlert("Usuario creado...")
+                setOpen(true)
+            }
         })
         .catch((error) => {
+            setColor("red")
             console.log(error);
+            setMessageAlert(error.message)
+            setOpen(true)
         });
     }
 
-    return (        
+    return (    
+        <>    
+        <Alert open={open} color={color} onClose={() => navigate('/login')}>
+            {messageAlert}
+        </Alert>
         <div className='text-white h-[100vh] flex items-center justify-center bg-cover' style={{backgroundImage:"url('../assets/IPNDECORA.jpg')"}}>
         <div className="bg-slate-800 border border-slate-600 rounded-md p-8 shadow-lg backdrop-filter backdrop-blur-lg bg-opacity-30 relative">
         <h5 className="text-4xl font-bold text-center">Registro</h5>
@@ -82,7 +97,9 @@ const Register = () => {
                     </div>
                 </form>
         </div>
+        
     </div>
+    </>
     )
 }
 
