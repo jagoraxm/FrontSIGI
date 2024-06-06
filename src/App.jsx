@@ -1,9 +1,7 @@
-import React, { useEffect, useState } from 'react';
 import {
   Routes,
   Route,
-  BrowserRouter,
-  useLocation
+  BrowserRouter
 } from 'react-router-dom';
 
 import './css/style.css';
@@ -17,41 +15,13 @@ import Register from './Register';
 import { ProtectedRoute } from './components/ProtectedRoute';
 import Monitor from './pages/Monitor';
 
-import { useSelector, useDispatch } from 'react-redux';
-import { loginAction, logoutAction } from './features/auth/authSlice';
+import { useSelector } from 'react-redux';
 
 function App() {
-
-  const [userG, setUserG] = useState(null)
 
   const authState = useSelector(state => state.auth)
 
   console.log(authState);
-
-  /*const dispatch = useDispatch()
-  
-  const login = () => {
-    console.log('authState --> ', authState)
-    const userGd = {
-      auth:{ 
-        user:{
-          id: 1,
-          name: "Jon",
-          rol: ['admin']
-        }}
-    }
-    setUserG(userGd)
-
-    console.log('userGd ---> ', userGd);
-    dispatch(loginAction(userGd))
-  };
-
-  const logout = () => {
-    
-    dispatch(logoutAction(userG.auth.user.id))
-    
-    setUserG(null);
-  }*/
 
   return (
     <BrowserRouter>

@@ -1,10 +1,9 @@
 import { useState } from "react";
 import axios from "axios";
 import FormData from "form-data";
-import {Link} from 'react-router-dom';
 
 import { useSelector, useDispatch } from 'react-redux';
-import { loginAction, logoutAction } from './features/auth/authSlice';
+import { loginAction } from './features/auth/authSlice';
 import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
@@ -60,7 +59,6 @@ const Login = () => {
                         <label htmlFor="floating_standard" className="absolute text-sm text-white-500 dark:text-white-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-red-900 peer-focus:dark:text-red-900 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">Contraseña</label>
                     </div>
                     <button type="button" onClick={login} className="w-full mb-4 text-[18px] mt-6 rounded bg-red-900 py-2 hover:bg-red-700 transition-colors duration-300 mb-6">Ingresar</button>
-                    <Link to="/monitor" className="w-full mb-4 text-[18px] mt-6 rounded bg-red-900 py-2 hover:bg-red-700 transition-colors duration-300 mb-6">Login</Link>
                 </form>
             </div>
         </div>

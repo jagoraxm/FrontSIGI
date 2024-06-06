@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import FormData from "form-data";
+import { useNavigate } from "react-router-dom";
 
 const Register = () => {
 
@@ -9,6 +10,8 @@ const Register = () => {
     const [passConfInput, setPassConfInput] = useState("")
     const [nameInput, setNameInput] = useState("")
     const [userInput, setUserInput] = useState("")
+
+    const navigate = useNavigate();
 
     const register = () => {
         console.log(emailInput)
@@ -34,17 +37,18 @@ const Register = () => {
 
         axios.request(config)
         .then((response) => {
-            console.log(JSON.stringify(response.data));
+            console.log(JSON.stringify(response.data))
+            navigate('/login')
         })
         .catch((error) => {
             console.log(error);
         });
     }
 
-    return (
-        <div>
-            <div className="bg-slate-800 border border-slate-600 rounded-md p-8 shadow-lg backdrop-filter backdrop-blur-lg bg-opacity-30 relative">
-                <h5 className="text-4xl font-bold text-center">Registro</h5>
+    return (        
+        <div className='text-white h-[100vh] flex items-center justify-center bg-cover' style={{backgroundImage:"url('../assets/IPNDECORA.jpg')"}}>
+        <div className="bg-slate-800 border border-slate-600 rounded-md p-8 shadow-lg backdrop-filter backdrop-blur-lg bg-opacity-30 relative">
+        <h5 className="text-4xl font-bold text-center">Registro</h5>
                 <form action="">
                     <div className="relative my-4">
                         <h2 className="text-base font-semibold leading-7 text-white-900">Información</h2>
@@ -77,8 +81,8 @@ const Register = () => {
                         <button type="button" onClick={register} className="w-full mb-4 text-[18px] mt-6 rounded bg-red-900 py-2 hover:bg-red-700 transition-colors duration-300 mb-6">Guardar</button>
                     </div>
                 </form>
-            </div>
         </div>
+    </div>
     )
 }
 
