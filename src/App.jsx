@@ -16,6 +16,8 @@ import { ProtectedRoute } from './components/ProtectedRoute';
 import Monitor from './pages/Monitor';
 
 import { useSelector } from 'react-redux';
+import RegisterConfirm from './RegisterConfirm';
+import ConfirmEmail from './ConfirmEmail';
 
 function App() {
 
@@ -31,6 +33,8 @@ function App() {
           <Route path="/" element={<Login />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/confirm/:token" element={<ConfirmEmail />} />
+          <Route path="/registerConfirm" element={<RegisterConfirm />} />
           <Route path="/dashboard" element={<ProtectedRoute isAllowed={!!authState[0].auth.token}><Dashboard /></ProtectedRoute>} />
           <Route path="/monitor" element={<ProtectedRoute isAllowed={!!authState[0].auth.token}><Monitor /></ProtectedRoute>} />
           {/*<ProtectedRoute isAllowed={!!user}>
