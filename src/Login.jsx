@@ -1,22 +1,24 @@
 import { useState } from "react";
 import axios from "axios";
 import FormData from "form-data";
+import {Link} from 'react-router-dom';
+
+import { useSelector, useDispatch } from 'react-redux';
+import { loginAction, logoutAction } from './features/auth/authSlice';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
     const [emailInput, setEmailInput] = useState("")
     const [passInput, setPassInput] = useState("")
 
+    const authState = useSelector(state => state.auth)
+    const dispatch = useDispatch()
+
+    const navigate = useNavigate();
+
     const login = () => {
         console.log(emailInput)
         console.log(passInput)
-
-        /*const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c';
-        
-        axios.defaults.headers.post['Content-Type'] ='application/json;charset=utf-8';
-        axios.defaults.headers.post['Service-Id'] ='service-id-api';
-        axios.defaults.headers.post['Service-Name'] ='service-name';
-        axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
-        axios.defaults.headers.common = {'Authorization': `bearer ${token}`}*/
 
         let data = new FormData();
 
@@ -33,7 +35,10 @@ const Login = () => {
 
         axios.request(config)
         .then((response) => {
-            console.log(JSON.stringify(response.data));
+            dispatch(loginAction(response.data.access_token))
+            console.log("LOGIN --> ", JSON.stringify(response.data.access_token));
+            if(authState)
+                navigate('/monitor')
         })
         .catch((error) => {
             console.log(error);
@@ -41,7 +46,7 @@ const Login = () => {
     }
 
     return (
-        <div>
+        <div className='text-white h-[100vh] flex items-center justify-center bg-cover' style={{backgroundImage:"url('../assets/IPNDECORA.jpg')"}}>
             <div className="bg-slate-800 border border-slate-600 rounded-md p-8 shadow-lg backdrop-filter backdrop-blur-lg bg-opacity-30 relative">
                 <h5 className="text-4xl font-bold text-center">SIGI</h5>
                 <form action="">
@@ -55,6 +60,7 @@ const Login = () => {
                         <label htmlFor="floating_standard" className="absolute text-sm text-white-500 dark:text-white-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-red-900 peer-focus:dark:text-red-900 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">Contraseña</label>
                     </div>
                     <button type="button" onClick={login} className="w-full mb-4 text-[18px] mt-6 rounded bg-red-900 py-2 hover:bg-red-700 transition-colors duration-300 mb-6">Ingresar</button>
+                    <Link to="/monitor" className="w-full mb-4 text-[18px] mt-6 rounded bg-red-900 py-2 hover:bg-red-700 transition-colors duration-300 mb-6">Login</Link>
                 </form>
             </div>
         </div>
