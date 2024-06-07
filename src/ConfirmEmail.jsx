@@ -17,11 +17,10 @@ const ConfirmEmail = () => {
       if(params.token){
 
         let config = {
-            method: 'post',
+            method: 'get',
             maxBodyLength: Infinity,
             url: 'https://backendsigi-production.up.railway.app/checkAuth',
             headers: { 
-                "Content-Type": "multipart/form-data",
                 "Authorization": `Bearer ${params.token}`
             }
         };
