@@ -16,7 +16,7 @@ export const authSlice = createSlice({
             //state.push("action.payload --> ", action.payload)
             console.log("action.payload --> ", action.payload)
             const foundUser = state.find(auth => auth.auth.token === null)
-            foundUser.auth.token = action.payload
+            foundUser.auth = action.payload
         },
         logoutAction: (state, action) => {
             console.log(action.payload);

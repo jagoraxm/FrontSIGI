@@ -34,8 +34,8 @@ const Login = () => {
 
         axios.request(config)
         .then((response) => {
-            dispatch(loginAction(response.data.access_token))
-            console.log("LOGIN --> ", JSON.stringify(response.data.access_token));
+            dispatch(loginAction(response.data))
+            console.log("LOGIN --> ", JSON.stringify(response.data));
             if(authState)
                 navigate('/monitor')
         })
