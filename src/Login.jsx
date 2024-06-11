@@ -47,7 +47,7 @@ const Login = () => {
                 navigate('/monitor')
             } else {
                 setColor("yellow")
-                setMessageAlert(response.data.message)
+                setMessageAlert(response.data.msg)
                 setOpen(true)
                 //navigate('/monitor')
             }
