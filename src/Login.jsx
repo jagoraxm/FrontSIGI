@@ -45,6 +45,11 @@ const Login = () => {
                 setMessageAlert("Bienvenido...")
                 setOpen(true)
                 navigate('/monitor')
+            } else {
+                setColor("yellow")
+                setMessageAlert(response.data.message)
+                setOpen(true)
+                //navigate('/monitor')
             }
         })
         .catch((error) => {
