@@ -61,10 +61,11 @@ const Login = () => {
     }
 
     return (
+        <>
+        <Alert open={open} color={color} onClose={() => navigate('/login')}>
+            {messageAlert}
+        </Alert>
         <div className='text-white h-[100vh] flex items-center justify-center bg-cover' style={{backgroundImage:"url('../assets/IPNDECORA.jpg')"}}>
-            <Alert open={open} color={color} onClose={() => navigate('/login')}>
-                {messageAlert}
-            </Alert>
             <div className="bg-slate-800 border border-slate-600 rounded-md p-8 shadow-lg backdrop-filter backdrop-blur-lg bg-opacity-30 relative">
                 <h5 className="text-4xl font-bold text-center">SIGI</h5>
                 <form action="">
@@ -81,6 +82,7 @@ const Login = () => {
                 </form>
             </div>
         </div>
+        </>
     )
 }
 
