@@ -5,10 +5,14 @@ import FormData from "form-data";
 import { useSelector, useDispatch } from 'react-redux';
 import { loginAction } from './features/auth/authSlice';
 import { useNavigate } from 'react-router-dom';
+import { Alert } from "@material-tailwind/react";
 
 const Login = () => {
     const [emailInput, setEmailInput] = useState("")
     const [passInput, setPassInput] = useState("")
+    const [open, setOpen] = useState(false)
+    const [messageAlert, setMessageAlert] = useState("")
+    const [color, setColor] = useState("blue")
 
     const authState = useSelector(state => state.auth)
     const dispatch = useDispatch()
@@ -36,16 +40,26 @@ const Login = () => {
         .then((response) => {
             dispatch(loginAction(response.data))
             console.log("LOGIN --> ", JSON.stringify(response.data));
-            if(authState)
+            if(authState){
+                setColor("green")
+                setMessageAlert("Bienvenido...")
+                setOpen(true)
                 navigate('/monitor')
+            }
         })
         .catch((error) => {
+            setColor("red")
             console.log(error);
+            setMessageAlert(error.message)
+            setOpen(true)
         });
     }
 
     return (
         <div className='text-white h-[100vh] flex items-center justify-center bg-cover' style={{backgroundImage:"url('../assets/IPNDECORA.jpg')"}}>
+            <Alert open={open} color={color} onClose={() => navigate('/login')}>
+                {messageAlert}
+            </Alert>
             <div className="bg-slate-800 border border-slate-600 rounded-md p-8 shadow-lg backdrop-filter backdrop-blur-lg bg-opacity-30 relative">
                 <h5 className="text-4xl font-bold text-center">SIGI</h5>
                 <form action="">
