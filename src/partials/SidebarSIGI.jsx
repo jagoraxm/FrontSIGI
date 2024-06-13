@@ -34,7 +34,7 @@ import {
 
 import { useSelector, useDispatch } from 'react-redux';
 import { logoutAction } from '../features/auth/authSlice';
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
  
 const SidebarSIGI = () => {
   const [open, setOpen] = React.useState(0);
@@ -44,9 +44,45 @@ const SidebarSIGI = () => {
   const authState = useSelector(state => state.auth)
   const dispatch = useDispatch()
 
+  const rolAdmin = authState[0].auth.rol.map(rol => {
+    console.log("rol --> ", rol);
+    if(rol === "su") return true
+    return false
+  })
+
+  const rolEscuelas = authState[0].auth.rol.map(rol => {
+    console.log("rol --> ", rol);
+    if(rol === "escuelas") return true
+    return false
+  })
+
+  const rolControlGestion = authState[0].auth.rol.map(rol => {
+    console.log("rol --> ", rol);
+    if(rol === "controlGestion") return true
+    return false
+  })
+
+  const rolIPN = authState[0].auth.rol.map(rol => {
+    console.log("rol --> ", rol);
+    if(rol === "ipn") return true
+    return false
+  })
+
+  const rolSEP = authState[0].auth.rol.map(rol => {
+    console.log("rol --> ", rol);
+    if(rol === "sep") return true
+    return false
+  })
+
+  const rolCoordinador = authState[0].auth.rol.map(rol => {
+    console.log("rol --> ", rol);
+    if(rol === "coordinador") return true
+    return false
+  })
+  
   const logout = async () => {
-    console.log(authState[0].auth.token);
-    await dispatch(logoutAction(authState[0].auth.token))
+    console.log(authState[0].auth);
+    await dispatch(logoutAction(authState[0].auth.access_token))
   }
 
   const handleOpen = (value) => {
@@ -55,7 +91,7 @@ const SidebarSIGI = () => {
  
   const openDrawer = () => setIsDrawerOpen(true);
   const closeDrawer = () => setIsDrawerOpen(false);
- 
+
   return (
     <>
       <IconButton variant="text" size="lg" onClick={openDrawer}>
@@ -78,7 +114,7 @@ const SidebarSIGI = () => {
               className="h-8 w-8"
             />
             <Typography variant="h5" color="blue-gray">
-              Sidebar
+              SIGI
             </Typography>
           </div>
           <div className="p-2">
@@ -88,6 +124,7 @@ const SidebarSIGI = () => {
             />
           </div>
           <List>
+            {(rolCoordinador[0] || rolAdmin[0]) ? (
             <Accordion
               open={open === 1}
               icon={
@@ -108,33 +145,36 @@ const SidebarSIGI = () => {
                     <PresentationChartBarIcon className="h-5 w-5" />
                   </ListItemPrefix>
                   <Typography color="blue-gray" className="mr-auto font-normal">
-                    Dashboard
+                    Admin
                   </Typography>
                 </AccordionHeader>
               </ListItem>
               <AccordionBody className="py-1">
                 <List className="p-0">
+                <Link to="/createUser">
                   <ListItem>
                     <ListItemPrefix>
                       <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
                     </ListItemPrefix>
-                    Analytics
+                    Alta Usuario
+                  </ListItem>
+                  </Link>
+                  <ListItem>
+                    <ListItemPrefix>
+                      <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
+                    </ListItemPrefix>
+                    Validar Usuario
                   </ListItem>
                   <ListItem>
                     <ListItemPrefix>
                       <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
                     </ListItemPrefix>
-                    Reporting
-                  </ListItem>
-                  <ListItem>
-                    <ListItemPrefix>
-                      <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
-                    </ListItemPrefix>
-                    Projects
+                    Desactivar Usuario
                   </ListItem>
                 </List>
-              </AccordionBody>
-            </Accordion>
+              </AccordionBody> 
+            </Accordion> ) : (<></>) }
+            {(rolEscuelas[0] || rolControlGestion[0] || rolCoordinador[0] || rolAdmin[0]) ? (
             <Accordion
               open={open === 2}
               icon={
@@ -155,7 +195,7 @@ const SidebarSIGI = () => {
                     <ShoppingBagIcon className="h-5 w-5" />
                   </ListItemPrefix>
                   <Typography color="blue-gray" className="mr-auto font-normal">
-                    E-Commerce
+                    Carga inicial
                   </Typography>
                 </AccordionHeader>
               </ListItem>
@@ -165,17 +205,191 @@ const SidebarSIGI = () => {
                     <ListItemPrefix>
                       <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
                     </ListItemPrefix>
-                    Orders
+                    Monitor
                   </ListItem>
+                </List>
+              </AccordionBody>
+            </Accordion> ) : (<></>) }
+            {(rolEscuelas[0] || rolControlGestion[0] || rolCoordinador[0] || rolAdmin[0]) ? (
+            <Accordion
+              open={open === 3}
+              icon={
+                <ChevronDownIcon
+                  strokeWidth={2.5}
+                  className={`mx-auto h-4 w-4 transition-transform ${
+                    open === 3 ? "rotate-180" : ""
+                  }`}
+                />
+              }
+            >
+              <ListItem className="p-0" selected={open === 3}>
+                <AccordionHeader
+                  onClick={() => handleOpen(3)}
+                  className="border-b-0 p-3"
+                >
+                  <ListItemPrefix>
+                    <ShoppingBagIcon className="h-5 w-5" />
+                  </ListItemPrefix>
+                  <Typography color="blue-gray" className="mr-auto font-normal">
+                    Pendiente de folio
+                  </Typography>
+                </AccordionHeader>
+              </ListItem>
+              <AccordionBody className="py-1">
+                <List className="p-0">
                   <ListItem>
                     <ListItemPrefix>
                       <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
                     </ListItemPrefix>
-                    Products
+                    Monitor
                   </ListItem>
                 </List>
               </AccordionBody>
-            </Accordion>
+            </Accordion> ) : (<></>) }
+            {(rolEscuelas[0] || rolIPN[0] || rolCoordinador[0] || rolAdmin[0]) ? (
+            <Accordion
+              open={open === 4}
+              icon={
+                <ChevronDownIcon
+                  strokeWidth={2.5}
+                  className={`mx-auto h-4 w-4 transition-transform ${
+                    open === 4 ? "rotate-180" : ""
+                  }`}
+                />
+              }
+            >
+              <ListItem className="p-0" selected={open === 4}>
+                <AccordionHeader
+                  onClick={() => handleOpen(4)}
+                  className="border-b-0 p-3"
+                >
+                  <ListItemPrefix>
+                    <ShoppingBagIcon className="h-5 w-5" />
+                  </ListItemPrefix>
+                  <Typography color="blue-gray" className="mr-auto font-normal">
+                    En evaluación
+                  </Typography>
+                </AccordionHeader>
+              </ListItem>
+              <AccordionBody className="py-1">
+                <List className="p-0">
+                  <ListItem>
+                    <ListItemPrefix>
+                      <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
+                    </ListItemPrefix>
+                    Monitor
+                  </ListItem>
+                </List>
+              </AccordionBody>
+            </Accordion> ) : (<></>) }
+            {(rolEscuelas[0] || rolIPN[0] || rolCoordinador[0] || rolAdmin[0]) ? (
+            <Accordion
+              open={open === 5}
+              icon={
+                <ChevronDownIcon
+                  strokeWidth={2.5}
+                  className={`mx-auto h-4 w-4 transition-transform ${
+                    open === 5 ? "rotate-180" : ""
+                  }`}
+                />
+              }
+            >
+              <ListItem className="p-0" selected={open === 5}>
+                <AccordionHeader
+                  onClick={() => handleOpen(5)}
+                  className="border-b-0 p-3"
+                >
+                  <ListItemPrefix>
+                    <ShoppingBagIcon className="h-5 w-5" />
+                  </ListItemPrefix>
+                  <Typography color="blue-gray" className="mr-auto font-normal">
+                    Observado
+                  </Typography>
+                </AccordionHeader>
+              </ListItem>
+              <AccordionBody className="py-1">
+                <List className="p-0">
+                  <ListItem>
+                    <ListItemPrefix>
+                      <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
+                    </ListItemPrefix>
+                    Monitor
+                  </ListItem>
+                </List>
+              </AccordionBody>
+            </Accordion> ) : (<></>) }
+            {(rolEscuelas[0] || rolIPN[0] || rolSEP[0] || rolCoordinador[0] || rolCoordinador[0] || rolAdmin[0]) ? (
+            <Accordion
+              open={open === 6}
+              icon={
+                <ChevronDownIcon
+                  strokeWidth={2.5}
+                  className={`mx-auto h-4 w-4 transition-transform ${
+                    open === 6 ? "rotate-180" : ""
+                  }`}
+                />
+              }
+            >
+              <ListItem className="p-0" selected={open === 6}>
+                <AccordionHeader
+                  onClick={() => handleOpen(6)}
+                  className="border-b-0 p-3"
+                >
+                  <ListItemPrefix>
+                    <ShoppingBagIcon className="h-5 w-5" />
+                  </ListItemPrefix>
+                  <Typography color="blue-gray" className="mr-auto font-normal">
+                    Evaluación externa
+                  </Typography>
+                </AccordionHeader>
+              </ListItem>
+              <AccordionBody className="py-1">
+                <List className="p-0">
+                  <ListItem>
+                    <ListItemPrefix>
+                      <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
+                    </ListItemPrefix>
+                    Monitor
+                  </ListItem>
+                </List>
+              </AccordionBody>
+            </Accordion> ) : (<></>) }
+            {(rolEscuelas[0] || rolIPN[0] || rolSEP[0] || rolCoordinador[0] || rolCoordinador[0] || rolAdmin[0]) ? (
+            <Accordion
+              open={open === 7}
+              icon={
+                <ChevronDownIcon
+                  strokeWidth={2.5}
+                  className={`mx-auto h-4 w-4 transition-transform ${
+                    open === 7 ? "rotate-180" : ""
+                  }`}
+                />
+              }
+            >
+              <ListItem className="p-0" selected={open === 7}>
+                <AccordionHeader
+                  onClick={() => handleOpen(7)}
+                  className="border-b-0 p-3"
+                >
+                  <ListItemPrefix>
+                    <ShoppingBagIcon className="h-5 w-5" />
+                  </ListItemPrefix>
+                  <Typography color="blue-gray" className="mr-auto font-normal">
+                    Elaboración de respuesta
+                  </Typography>
+                </AccordionHeader>
+              </ListItem>
+              <AccordionBody className="py-1">
+                <List className="p-0">
+                  <ListItem>
+                    <ListItemPrefix>
+                      <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
+                    </ListItemPrefix>
+                    Monitor
+                  </ListItem>
+                </List>
+              </AccordionBody>
+            </Accordion> ) : (<></>) }
             <hr className="my-2 border-blue-gray-50" />
             <ListItem>
               <ListItemPrefix>

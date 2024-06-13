@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Transition from '../utils/Transition';
 
@@ -6,11 +6,9 @@ import UserAvatar from '../images/user-avatar-32.png';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { logoutAction } from '../features/auth/authSlice';
-import { useNavigate } from 'react-router-dom';
+import PropTypes from 'prop-types'
 
-function DropdownProfile({
-  align
-}) {
+const DropdownProfile = ({align}) => {
 
   const [dropdownOpen, setDropdownOpen] = useState(false);
  
@@ -108,6 +106,10 @@ function DropdownProfile({
       </Transition>
     </div>
   )
+}
+
+DropdownProfile.propTypes = {
+  align: PropTypes.string.isRequired
 }
 
 export default DropdownProfile;

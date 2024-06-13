@@ -77,7 +77,7 @@ const RegisterConfirm = () => {
                         <div className="relative my-4">
                             <label htmlFor="floating_standard" className="absolute text-xl/6 text-white-500 dark:text-white-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-red-900 peer-focus:dark:text-red-900 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">[Correo electrónico a modificar]</label>
                         </div>
-                        <button type="submit" className="w-full mb-4 text-[18px] mt-6 rounded bg-red-900 py-2 hover:bg-red-700 transition-colors duration-300 mb-6">Confirmar</button>
+                        <button type="submit" className="w-full text-[18px] mt-6 rounded bg-red-900 py-2 hover:bg-red-700 transition-colors duration-300 mb-6">Confirmar</button>
                     </div>
                 </form>
         </div>

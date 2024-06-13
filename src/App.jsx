@@ -35,8 +35,9 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/confirm/:token" element={<ConfirmEmail />} />
           <Route path="/registerConfirm" element={<RegisterConfirm />} />
-          <Route path="/dashboard" element={<ProtectedRoute isAllowed={!!authState[0].auth.access_token}><Dashboard /></ProtectedRoute>} />
-          <Route path="/monitor" element={<ProtectedRoute isAllowed={!!authState[0].auth.access_token}><Monitor /></ProtectedRoute>} />
+          <Route path="/createUser" element={<ProtectedRoute isAllowed={!!authState[0].auth.token}><Monitor param="AddUser" /></ProtectedRoute>} />
+          <Route path="/dashboard" element={<ProtectedRoute isAllowed={!!authState[0].auth.token}><Dashboard /></ProtectedRoute>} />
+          <Route path="/monitor" element={<ProtectedRoute isAllowed={!!authState[0].auth.token}><Monitor param="DashboardMonitor" /></ProtectedRoute>} />
           {/*<ProtectedRoute isAllowed={!!user}>
             <Monitor1>
 
