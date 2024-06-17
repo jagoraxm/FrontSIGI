@@ -13,47 +13,54 @@ import {
   Collapse
 } from "@material-tailwind/react";
 import {
-  CubeTransparentIcon,
   UserCircleIcon,
-  CodeBracketSquareIcon,
   Square3Stack3DIcon,
   ChevronDownIcon,
-  Cog6ToothIcon,
   InboxArrowDownIcon,
-  LifebuoyIcon,
   PowerIcon,
   RocketLaunchIcon,
   Bars2Icon,
+  PlusIcon,
+  MinusIcon,
+  PencilIcon,
+  ListBulletIcon
 } from "@heroicons/react/24/solid";
+
+import { logoutAction } from '../features/auth/authSlice';
+import { useSelector, useDispatch } from 'react-redux';
+import { useNavigate } from "react-router-dom";
  
 // profile menu component
 const profileMenuItems = [
   {
-    label: "My Profile",
+    label: "Mi Perfil",
     icon: UserCircleIcon,
   },
   {
-    label: "Edit Profile",
-    icon: Cog6ToothIcon,
-  },
-  {
-    label: "Inbox",
+    label: "Notificaciones",
     icon: InboxArrowDownIcon,
   },
   {
-    label: "Help",
-    icon: LifebuoyIcon,
-  },
-  {
-    label: "Sign Out",
+    label: "LogOut",
     icon: PowerIcon,
   },
 ];
  
 function ProfileMenu() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+  const dispatch = useDispatch()
+  const authState = useSelector(state => state.auth)
  
-  const closeMenu = () => setIsMenuOpen(false);
+  const closeMenu = async (label) => {
+    console.log(`closeMenu ${label}`);
+    
+    if(label == "LogOut"){
+      console.log(authState[0].auth);
+      await dispatch(logoutAction(authState[0].auth.token))
+    }
+
+    setIsMenuOpen(false);
+  }
  
   return (
     <Menu open={isMenuOpen} handler={setIsMenuOpen} placement="bottom-end">
@@ -84,7 +91,7 @@ function ProfileMenu() {
           return (
             <MenuItem
               key={label}
-              onClick={closeMenu}
+              onClick={() => closeMenu(label)}
               className={`flex items-center gap-2 rounded ${
                 isLastItem
                   ? "hover:bg-red-500/10 focus:bg-red-500/10 active:bg-red-500/10"
@@ -191,23 +198,39 @@ function NavListMenu() {
 // nav list component
 const navListItems = [
   {
-    label: "Account",
-    icon: UserCircleIcon,
+    label: "Monitor",
+    icon: ListBulletIcon,
   },
   {
-    label: "Blocks",
-    icon: CubeTransparentIcon,
+    label: "Agregar",
+    icon: PlusIcon,
   },
   {
-    label: "Docs",
-    icon: CodeBracketSquareIcon,
+    label: "Editar",
+    icon: PencilIcon,
+  },
+  {
+    label: "Borrar",
+    icon: MinusIcon,
   },
 ];
  
-function NavList() {
+const NavList = () => {
+
+  const navigate = useNavigate();
+
+  const actionMonitor = (label) => {
+    console.log(label);
+    if(label == 'Agregar'){
+      navigate('/createMonitor1')
+    }
+    if(label == 'Monitor') {
+      navigate('/Monitor1')
+    }
+  }
+
   return (
     <ul className="mt-2 mb-4 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center">
-      <NavListMenu />
       {navListItems.map(({ label, icon }, key) => (
         <Typography
           key={label}
@@ -217,7 +240,10 @@ function NavList() {
           color="gray"
           className="font-medium text-blue-gray-500"
         >
-          <MenuItem className="flex items-center gap-2 lg:rounded-full">
+          <MenuItem 
+            className="flex items-center gap-2 lg:rounded-full"
+            onClick={() => actionMonitor(label)}  
+          >
             {React.createElement(icon, { className: "h-[18px] w-[18px]" })}{" "}
             <span className="text-gray-900"> {label}</span>
           </MenuItem>
@@ -231,7 +257,7 @@ const Header = () => {
   const [isNavOpen, setIsNavOpen] = React.useState(false);
  
   const toggleIsNavOpen = () => setIsNavOpen((cur) => !cur);
- 
+
   React.useEffect(() => {
     window.addEventListener(
       "resize",
@@ -247,7 +273,6 @@ const Header = () => {
           href="#"
           className="mr-4 ml-2 cursor-pointer py-1.5 font-medium"
         >
-          Material Tailwind
         </Typography>
         <div className="hidden lg:block">
           <NavList />
@@ -262,9 +287,7 @@ const Header = () => {
           <Bars2Icon className="h-6 w-6" />
         </IconButton>
  
-        <Button size="sm" variant="text">
-          <span>Log In</span>
-        </Button>
+        
         <ProfileMenu />
       </div>
       <Collapse open={isNavOpen} className="overflow-scroll">

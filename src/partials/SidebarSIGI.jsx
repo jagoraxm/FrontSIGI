@@ -5,8 +5,6 @@ import {
   List,
   ListItem,
   ListItemPrefix,
-  ListItemSuffix,
-  Chip,
   Accordion,
   AccordionHeader,
   AccordionBody,
@@ -18,9 +16,6 @@ import {
 import {
   PresentationChartBarIcon,
   ShoppingBagIcon,
-  UserCircleIcon,
-  Cog6ToothIcon,
-  InboxIcon,
   PowerIcon,
 } from "@heroicons/react/24/solid";
 import {
@@ -82,7 +77,7 @@ const SidebarSIGI = () => {
   
   const logout = async () => {
     console.log(authState[0].auth);
-    await dispatch(logoutAction(authState[0].auth.access_token))
+    await dispatch(logoutAction(authState[0].auth.token))
   }
 
   const handleOpen = (value) => {
@@ -390,41 +385,9 @@ const SidebarSIGI = () => {
                 </List>
               </AccordionBody>
             </Accordion> ) : (<></>) }
-            <hr className="my-2 border-blue-gray-50" />
-            <ListItem>
-              <ListItemPrefix>
-                <InboxIcon className="h-5 w-5" />
-              </ListItemPrefix>
-              Inbox
-              <ListItemSuffix>
-                <Chip
-                  value="14"
-                  size="sm"
-                  variant="ghost"
-                  color="blue-gray"
-                  className="rounded-full"
-                />
-              </ListItemSuffix>
-            </ListItem>
-            <ListItem>
-              <ListItemPrefix>
-                <UserCircleIcon className="h-5 w-5" />
-              </ListItemPrefix>
-              Profile
-            </ListItem>
-            <ListItem>
-              <ListItemPrefix>
-                <Cog6ToothIcon className="h-5 w-5" />
-              </ListItemPrefix>
-              Settings
-            </ListItem>
-            <ListItem onClick={logout}>
-              <ListItemPrefix>
-                <PowerIcon className="h-5 w-5" />
-              </ListItemPrefix>
-              Log Out
-            </ListItem>
+            
           </List>
+          { (authState[0].auth.notification != "") ? 
           <Alert
             open={openAlert}
             className="mt-auto"
@@ -432,32 +395,21 @@ const SidebarSIGI = () => {
           >
             <CubeTransparentIcon className="mb-4 h-12 w-12" />
             <Typography variant="h6" className="mb-1">
-              Upgrade to PRO
+              {authState[0].auth.notification.title}
             </Typography>
             <Typography variant="small" className="font-normal opacity-80">
-              Upgrade to Material Tailwind PRO and get even more components,
-              plugins, advanced features and premium.
+            {authState[0].auth.notification.description}
             </Typography>
-            <div className="mt-4 flex gap-3">
-              <Typography
-                as="a"
-                href="#"
-                variant="small"
-                className="font-medium opacity-80"
-                onClick={() => setOpenAlert(false)}
-              >
-                Dismiss
-              </Typography>
-              <Typography
-                as="a"
-                href="#"
-                variant="small"
-                className="font-medium"
-              >
-                Upgrade Now
-              </Typography>
-            </div>
-          </Alert>
+          </Alert> : null
+          }
+          <List>
+            <ListItem onClick={logout}>
+              <ListItemPrefix>
+                <PowerIcon className="h-5 w-5" />
+              </ListItemPrefix>
+              LogOut
+            </ListItem>
+          </List>
         </Card>
       </Drawer>
     </>

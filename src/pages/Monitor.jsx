@@ -4,6 +4,7 @@ import Header from '../partials/Header';
 import SidebarSIGI from '../partials/SidebarSIGI';
 import DashboardMonitor from '../partials/dashboard/DashboardMonitor';
 import AddUser from './AddUser';
+import AddMonitor1 from './AddMonitor1';
 import PropTypes from 'prop-types'
 
 const Monitor = ({param}) => {
@@ -17,6 +18,8 @@ const Monitor = ({param}) => {
                 return (<DashboardMonitor />)
             case 'AddUser':
                 return (<AddUser />)
+            case 'AddMonitor1':
+                return (<AddMonitor1 />)
             default:
                 return null;
         }
