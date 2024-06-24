@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import axios from "axios";
-import { Chip } from "@material-tailwind/react";
+import { Chip, Tooltip, IconButton } from "@material-tailwind/react";
+import { PencilIcon } from "@heroicons/react/24/solid";
 
 const DashboardMonitor = () => {
 
@@ -131,8 +132,15 @@ const DashboardMonitor = () => {
                       </td>
                       <td className="p-2 whitespace-nowrap">
                         <div className="text-center gap-2">
-                          <Chip color={getcolor(oficio.estatus)} value={oficio.estatus} />
+                          <Chip size="sm" variant="ghost" color={getcolor(oficio.estatus)} value={oficio.estatus} />
                         </div>
+                      </td>
+                      <td>
+                        <Tooltip content="Editar Oficio">
+                          <IconButton variant="text">
+                            <PencilIcon className="h-4 w-4" />
+                          </IconButton>
+                        </Tooltip>
                       </td>
                     </tr>
                   )
