@@ -39,6 +39,11 @@ function App() {
           <Route path="/createMonitor1" element={<ProtectedRoute isAllowed={!!authState[0].auth.token}><Monitor param="AddMonitor1" /></ProtectedRoute>} />
           <Route path="/dashboard" element={<ProtectedRoute isAllowed={!!authState[0].auth.token}><Dashboard /></ProtectedRoute>} />
           <Route path="/monitor1" element={<ProtectedRoute isAllowed={!!authState[0].auth.token}><Monitor param="DashboardMonitor" /></ProtectedRoute>} />
+          <Route path="/monitor2" element={<ProtectedRoute isAllowed={!!authState[0].auth.token}><Monitor param="DashboardMonitor2" /></ProtectedRoute>} />
+          <Route path="/monitor3" element={<ProtectedRoute isAllowed={!!authState[0].auth.token}><Monitor param="DashboardMonitor3" /></ProtectedRoute>} />
+          <Route path="/monitor4" element={<ProtectedRoute isAllowed={!!authState[0].auth.token}><Monitor param="DashboardMonitor4" /></ProtectedRoute>} />
+          <Route path="/monitor5" element={<ProtectedRoute isAllowed={!!authState[0].auth.token}><Monitor param="DashboardMonitor5" /></ProtectedRoute>} />
+          <Route path="/monitor6" element={<ProtectedRoute isAllowed={!!authState[0].auth.token}><Monitor param="DashboardMonitor6" /></ProtectedRoute>} />
           {/*<ProtectedRoute isAllowed={!!user}>
             <Monitor1>
 
