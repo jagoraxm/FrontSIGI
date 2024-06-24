@@ -39,10 +39,10 @@ const Monitor = ({param}) => {
                 <div className="px-4 sm:px-6 lg:px-8 py-8 w-full max-w-9xl mx-auto">
                     
                     {/* Cards */}
-                    <div className="grid grid-cols-12 justify-items-center gap-6">
-                        <div className='col-span-12'>
+                    <div>
+                        
                             {renderSwitch(param)}
-                        </div>
+                        
                     </div>
                 </div>
             </main>
