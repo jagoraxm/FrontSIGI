@@ -1,60 +1,61 @@
-import React from 'react';
-
-import Image01 from '../../images/user-36-05.jpg';
-import Image02 from '../../images/user-36-06.jpg';
-import Image03 from '../../images/user-36-07.jpg';
-import Image04 from '../../images/user-36-08.jpg';
-import Image05 from '../../images/user-36-09.jpg';
+import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import axios from "axios";
 
 const DashboardMonitor = () => {
 
-  const customers = [
-    {
-      id: '0',
-      image: Image01,
-      name: 'Alex Shatov',
-      email: 'alexshatov@gmail.com',
-      location: '🇺🇸',
-      spent: '$2,890.66',
-    },
-    {
-      id: '1',
-      image: Image02,
-      name: 'Philip Harbach',
-      email: 'philip.h@gmail.com',
-      location: '🇩🇪',
-      spent: '$2,767.04',
-    },
-    {
-      id: '2',
-      image: Image03,
-      name: 'Mirko Fisuk',
-      email: 'mirkofisuk@gmail.com',
-      location: '🇫🇷',
-      spent: '$2,996.00',
-    },
-    {
-      id: '3',
-      image: Image04,
-      name: 'Olga Semklo',
-      email: 'olga.s@cool.design',
-      location: '🇮🇹',
-      spent: '$1,220.66',
-    },
-    {
-      id: '4',
-      image: Image05,
-      name: 'Burak Long',
-      email: 'longburak@gmail.com',
-      location: '🇬🇧',
-      spent: '$1,890.66',
-    },
-  ];
+  const [open, setOpen] = useState(false)
+  const [messageAlert, setMessageAlert] = useState("")
+  const [color, setColor] = useState("blue")
+  const [oficios, setOficios] = useState([])
+  const authState = useSelector(state => state.auth)
+
+  useEffect(() => {
+    
+    getOficios()
+    
+  }, [])
+  
+  const getOficios = async () => {
+      
+    let config = {
+      method: 'get',
+      maxBodyLength: Infinity,
+      url: 'https://backendsigi-production.up.railway.app/oficios',
+      headers: { 
+        "Authorization": `Bearer ${authState[0].auth.token}`,
+        "Content-Type": "multipart/form-data" 
+      }
+    };
+  
+    await axios.request(config)
+    .then(async (response) => {
+      //dispatch(loginAction(response.data))
+      //console.log("Oficios --> ", JSON.stringify(response.data.data));
+      if(response.data){
+        setColor("green")
+        setMessageAlert("Oficio agregado correctamente...")
+        setOpen(true)
+        await setOficios(response.data.data)
+        //navigate('/monitor1')
+      } 
+    })
+    .catch((error) => {
+      console.log("errorOficio --> ", JSON.stringify(error.response.data.msg));
+      setColor("red")
+      console.log(error);
+      if(error.response.data)
+        setMessageAlert(error.response.data.msg)
+      else
+        setMessageAlert(error.message)
+        setOpen(true)
+    });
+  }
 
   return (
     <div className="col-span-full xl:col-span-12 bg-white dark:bg-slate-800 shadow-lg rounded-sm border border-slate-200 dark:border-slate-700">
       <header className="px-5 py-4 border-b border-slate-100 dark:border-slate-700">
-        <h2 className="font-semibold text-slate-800 dark:text-slate-100">Customers</h2>
+        <h2 className="font-semibold text-slate-800 dark:text-slate-100">Oficios</h2>
       </header>
       <div className="p-3">
 
@@ -71,7 +72,7 @@ const DashboardMonitor = () => {
                   <div className="font-semibold text-left">No. de Oficio</div>
                 </th>
                 <th className="p-2 whitespace-nowrap">
-                  <div className="font-semibold text-left">Asunto</div>
+                  <div className="font-semibold text-left">Fecha de Oficio</div>
                 </th>
                 <th className="p-2 whitespace-nowrap">
                   <div className="font-semibold text-center">Estatus</div>
@@ -81,30 +82,22 @@ const DashboardMonitor = () => {
             {/* Table body */}
             <tbody className="text-sm divide-y divide-slate-100 dark:divide-slate-700">
               {
-                customers.map(customer => {
+                oficios.map(oficio => {
                   return (
-                    <tr key={customer.id}>
+                    <tr key={oficio.oficio}>
                       <td className="p-2 whitespace-nowrap">
-                        <div className="flex items-center">
-                          <div className="w-10 h-10 shrink-0 mr-2 sm:mr-3">
-                            <img className="rounded-full" src={customer.image} width="40" height="40" alt={customer.name} />
-                          </div>
-                          <div className="font-medium text-slate-800 dark:text-slate-100">{customer.name}</div>
+                        <div className="text-left">{oficio.folio}</div>
+                      </td>
+                      <td className="p-2 whitespace-nowrap">
+                        <div className="text-left">{oficio.oficio}</div>
+                      </td>
+                      <td className="p-2 whitespace-nowrap">
+                        <div className="text-left font-medium text-green-500">{oficio.fechaOficio}</div>
+                      </td>
+                      <td className="p-2 whitespace-nowrap">
+                        <div className="text-center">
+                          {oficio.estatus}
                         </div>
-                      </td>
-                      <td className="p-2 whitespace-nowrap">
-                        <div className="text-left">{customer.email}</div>
-                      </td>
-                      <td className="p-2 whitespace-nowrap">
-                        <div className="text-left font-medium text-green-500">{customer.spent}</div>
-                      </td>
-                      <td className="p-2 whitespace-nowrap">
-                        <div className="text-lg text-center">{customer.location}</div>
-                      </td>
-                      <td>
-                        <a className="font-medium text-indigo-500 hover:text-indigo-600 dark:hover:text-indigo-400" href="#0">
-                          View<span className="hidden sm:inline"> -&gt;</span>
-                        </a>
                       </td>
                     </tr>
                   )

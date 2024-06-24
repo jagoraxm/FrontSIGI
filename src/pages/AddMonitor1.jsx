@@ -4,71 +4,86 @@ import {
   Button,
   Typography,
   Alert,
-  List,
-  ListItem,
-  ListItemSuffix,
-  IconButton,
-  Avatar
+  IconButton
 } from "@material-tailwind/react";
 import { useState } from "react";
 import { PhotoIcon } from '@heroicons/react/24/solid'
- 
-const TrashIcon = () => {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 24 24"
-      fill="currentColor"
-      className="h-5 w-5"
-    >
-      <path
-        fillRule="evenodd"
-        d="M16.5 4.478v.227a48.816 48.816 0 013.878.512.75.75 0 11-.256 1.478l-.209-.035-1.005 13.07a3 3 0 01-2.991 2.77H8.084a3 3 0 01-2.991-2.77L4.087 6.66l-.209.035a.75.75 0 01-.256-1.478A48.567 48.567 0 017.5 4.705v-.227c0-1.564 1.213-2.9 2.816-2.951a52.662 52.662 0 013.369 0c1.603.051 2.815 1.387 2.815 2.951zm-6.136-1.452a51.196 51.196 0 013.273 0C14.39 3.05 15 3.684 15 4.478v.113a49.488 49.488 0 00-6 0v-.113c0-.794.609-1.428 1.364-1.452zm-.355 5.945a.75.75 0 10-1.5.058l.347 9a.75.75 0 101.499-.058l-.346-9zm5.48.058a.75.75 0 10-1.498-.058l-.347 9a.75.75 0 001.5.058l.345-9z"
-        clipRule="evenodd"
-      />
-    </svg>
-  );
-}
- 
-const ListWithIcon = ({ files }) => {
-
-  console.log(files);
-  return (
-    <Card className="w-96">
-      <List>
-        {files.map(value => {
-          return (
-          <ListItem ripple={false} className="py-1 pr-1 pl-4" key={value}>
-            <Avatar src={value} alt="avatar" variant="square" size="lg" />
-            <div>
-              <Typography variant="h6">{value}</Typography>              
-            </div>
-            <ListItemSuffix>
-              <IconButton variant="text" color="blue-gray">
-                <TrashIcon />
-                <TrashIcon />
-              </IconButton>
-            </ListItemSuffix>
-          </ListItem>
-        )})
-        }
-      </List>
-    </Card>
-  );
-}
+import axios from "axios";
+import FormData from "form-data";
+import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 const AddMonitor1 = () => {
 
   const [open, setOpen] = useState(false)
   const [messageAlert, setMessageAlert] = useState("")
   const [color, setColor] = useState("blue")
+  const [oficio, setOficio] = useState(null)
+  const [fechaOficio, setFechaOficio] = useState(null)
+  const [folio, setFolio] = useState(null)
+
+  const authState = useSelector(state => state.auth)
+
+  const navigate = useNavigate();
 
   const [arch, setArch] = useState([])
 
   const RegistraUsuario = () => {
-    setColor("red")
-    setMessageAlert("Mensaje")
-    setOpen(true)
+    if(oficio === null && fechaOficio === null && folio === null){
+      setColor("red")
+      setMessageAlert("Se deben llenar los valores correctamente")
+      setOpen(true)
+    } else {
+
+      let data = new FormData()
+  
+      data.append('oficio', oficio)
+      data.append('folio', folio)
+      data.append('fechaOficio', fechaOficio)
+      
+      let config = {
+        method: 'post',
+        maxBodyLength: Infinity,
+        url: 'https://backendsigi-production.up.railway.app/addOficio',
+        headers: { 
+          "Authorization": `Bearer ${authState[0].auth.token}`,
+          "Content-Type": "multipart/form-data" 
+        },
+        data : data
+      };
+  
+      axios.request(config)
+      .then((response) => {
+          //dispatch(loginAction(response.data))
+          console.log("addOficio --> ", JSON.stringify(response.data));
+          if(response.data.result == "ok"){
+              setColor("green")
+              setMessageAlert("Oficio agregado correctamente...")
+              setOpen(true)
+              //navigate('/monitor1')
+          } else {
+              setColor("yellow")
+              setMessageAlert(response.data.msg)
+              setOpen(true)
+              //navigate('/monitor')
+          }
+      })
+      .catch((error) => {
+          console.log("errorOficio --> ", JSON.stringify(error.response.data.msg));
+          setColor("red")
+          console.log(error);
+          if(error.response.data)
+            setMessageAlert(error.response.data.msg)
+          else
+            setMessageAlert(error.message)
+          setOpen(true)
+      });
+    }
+  }
+
+  const cerrar = () => {
+    if(color == "red") setOpen(false)
+    if(color == "green") navigate('/monitor1')
   }
 
   const imagen = ({ target }) => {
@@ -95,7 +110,22 @@ const AddMonitor1 = () => {
       <Typography color="gray" className="mt-1 font-normal">
         Ingresa el correo del usuario a dar de alta
       </Typography>
-      <form className="mt-8 mb-2 w-80 max-w-screen-lg sm:w-96" action="">
+      <form className="mt-8 mb-2 max-w-screen-lg" action="">
+      <div className="mb-1 flex flex-col gap-6">
+          <Typography variant="h6" color="blue-gray" className="-mb-3">
+            Folio
+          </Typography>
+          <Input
+            size="lg"
+            placeholder="Folio"
+            type="number"
+            onChange={(event) => setFolio(event.target.value)}
+            className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
+            labelProps={{
+              className: "before:content-none after:content-none",
+            }}
+          />
+        </div>
         <div className="mb-1 flex flex-col gap-6">
           <Typography variant="h6" color="blue-gray" className="-mb-3">
             No. de Oficio
@@ -103,7 +133,8 @@ const AddMonitor1 = () => {
           <Input
             size="lg"
             placeholder="Oficio"
-            type="text"
+            type="number"
+            onChange={(event) => setOficio(event.target.value)}
             className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
             labelProps={{
               className: "before:content-none after:content-none",
@@ -118,6 +149,7 @@ const AddMonitor1 = () => {
             size="lg"
             placeholder="DD/MM/AAAA"
             type="date"
+            onChange={(event) => setFechaOficio(event.target.value)}
             className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
             labelProps={{
               className: "before:content-none after:content-none",
@@ -126,7 +158,7 @@ const AddMonitor1 = () => {
 
           <div className="col-span-full">
               <label htmlFor="cover-photo" className="block text-sm font-medium leading-6 text-gray-900">
-                Cover photo
+                Imágenes a cargar...
               </label>
               <div className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
                 <div className="text-center">
@@ -136,12 +168,12 @@ const AddMonitor1 = () => {
                       htmlFor="file-upload"
                       className="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500"
                     >
-                      <span>Upload a file</span>
+                      <span>Carga archivo...</span>
                       <input id="file-upload" name="file-upload" onChange={imagen} type="file" accept="image/*,.pdf" className="sr-only" multiple />
                     </label>
-                    <p className="pl-1">or drag and drop</p>
+                    <p className="pl-1"></p>
                   </div>
-                  <p className="text-xs leading-5 text-gray-600">PNG, JPG, GIF up to 10MB</p>
+                  <p className="text-xs leading-5 text-gray-600">PNG, JPG, GIF máximo 10MB</p>
                 </div>
               </div>
             </div>
@@ -174,10 +206,10 @@ const AddMonitor1 = () => {
         <Button className="mt-6" onClick={RegistraUsuario} fullWidth>
           Alta de Folio
         </Button>
+        <Alert open={open} color={color} onClose={() => cerrar()}>
+          {messageAlert}
+        </Alert>
       </form>
-      <Alert open={open} color={color} onClose={() => setOpen(false)}>
-        {messageAlert}
-      </Alert>
     </Card>
   );
 }
