@@ -6,6 +6,11 @@ import DashboardMonitor from '../partials/dashboard/DashboardMonitor';
 import AddUser from './AddUser';
 import AddMonitor1 from './AddMonitor1';
 import PropTypes from 'prop-types'
+import DashboardMonitor2 from '../partials/dashboard/DashboardMonitor2';
+import DashboardMonitor3 from '../partials/dashboard/DashboardMonitor3';
+import DashboardMonitor4 from '../partials/dashboard/DashboardMonitor4';
+import DashboardMonitor5 from '../partials/dashboard/DashboardMonitor5';
+import DashboardMonitor6 from '../partials/dashboard/DashboardMonitor6';
 
 const Monitor = ({param}) => {
 
@@ -16,6 +21,16 @@ const Monitor = ({param}) => {
         switch(param) {
             case 'DashboardMonitor':
                 return (<DashboardMonitor />)
+            case 'DashboardMonitor2':
+                return (<DashboardMonitor2 />)
+            case 'DashboardMonitor3':
+                return (<DashboardMonitor3 />)
+            case 'DashboardMonitor4':
+                return (<DashboardMonitor4 />)
+            case 'DashboardMonitor5':
+                return (<DashboardMonitor5 />)
+            case 'DashboardMonitor6':
+                return (<DashboardMonitor6 />)
             case 'AddUser':
                 return (<AddUser />)
             case 'AddMonitor1':

@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import axios from "axios";
 import { Chip } from "@material-tailwind/react";
 
-const DashboardMonitor = () => {
+const DashboardMonitor2 = () => {
 
   const [open, setOpen] = useState(false)
   const [messageAlert, setMessageAlert] = useState("")
@@ -22,7 +22,7 @@ const DashboardMonitor = () => {
     let config = {
       method: 'get',
       maxBodyLength: Infinity,
-      url: 'https://backendsigi-production.up.railway.app/oficios',
+      url: 'https://backendsigi-production.up.railway.app/oficiosM6',
       headers: { 
         "Authorization": `Bearer ${authState[0].auth.token}`,
         "Content-Type": "multipart/form-data" 
@@ -148,4 +148,4 @@ const DashboardMonitor = () => {
   );
 }
 
-export default DashboardMonitor;
+export default DashboardMonitor2;

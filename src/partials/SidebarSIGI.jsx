@@ -196,12 +196,14 @@ const SidebarSIGI = () => {
               </ListItem>
               <AccordionBody className="py-1">
                 <List className="p-0">
+                <Link to="/monitor1">
                   <ListItem>
                     <ListItemPrefix>
                       <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
                     </ListItemPrefix>
                     Monitor
                   </ListItem>
+                  </Link>
                 </List>
               </AccordionBody>
             </Accordion> ) : (<></>) }
@@ -232,12 +234,14 @@ const SidebarSIGI = () => {
               </ListItem>
               <AccordionBody className="py-1">
                 <List className="p-0">
+                <Link to="/monitor2">
                   <ListItem>
                     <ListItemPrefix>
                       <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
                     </ListItemPrefix>
                     Monitor
                   </ListItem>
+                  </Link>
                 </List>
               </AccordionBody>
             </Accordion> ) : (<></>) }
@@ -268,12 +272,14 @@ const SidebarSIGI = () => {
               </ListItem>
               <AccordionBody className="py-1">
                 <List className="p-0">
+                <Link to="/monitor3">
                   <ListItem>
                     <ListItemPrefix>
                       <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
                     </ListItemPrefix>
                     Monitor
                   </ListItem>
+                  </Link>
                 </List>
               </AccordionBody>
             </Accordion> ) : (<></>) }
@@ -304,12 +310,14 @@ const SidebarSIGI = () => {
               </ListItem>
               <AccordionBody className="py-1">
                 <List className="p-0">
+                <Link to="/monitor4">
                   <ListItem>
                     <ListItemPrefix>
                       <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
                     </ListItemPrefix>
                     Monitor
                   </ListItem>
+                  </Link>
                 </List>
               </AccordionBody>
             </Accordion> ) : (<></>) }
@@ -340,12 +348,14 @@ const SidebarSIGI = () => {
               </ListItem>
               <AccordionBody className="py-1">
                 <List className="p-0">
+                <Link to="/monitor5">
                   <ListItem>
                     <ListItemPrefix>
                       <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
                     </ListItemPrefix>
                     Monitor
                   </ListItem>
+                  </Link>
                 </List>
               </AccordionBody>
             </Accordion> ) : (<></>) }
@@ -376,12 +386,14 @@ const SidebarSIGI = () => {
               </ListItem>
               <AccordionBody className="py-1">
                 <List className="p-0">
+                <Link to="/monitor6">
                   <ListItem>
                     <ListItemPrefix>
                       <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
                     </ListItemPrefix>
                     Monitor
                   </ListItem>
+                  </Link>
                 </List>
               </AccordionBody>
             </Accordion> ) : (<></>) }

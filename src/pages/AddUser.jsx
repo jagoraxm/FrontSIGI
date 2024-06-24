@@ -17,9 +17,21 @@ const AddUser = () => {
   
 
   const RegistraUsuario = () => {
-    setColor("red")
-    setMessageAlert("Mensaje")
-    setOpen(true)
+    if(validateEmail(email)) {
+      setColor("green")
+      setMessageAlert("Correo de registro enviado correctamente...")
+      setOpen(true)
+    } else {
+      setColor("red")
+      setMessageAlert("Correo invalido")
+      setOpen(true)
+    }
+  }
+
+  const validateEmail = (email) => {
+    return email.match(
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    )
   }
 
   return (
@@ -28,13 +40,13 @@ const AddUser = () => {
         Registro
       </Typography>
       <Typography color="gray" className="mt-1 font-normal">
-        Ingresa el correo del usuario a dar de alta
+        Ingresa el correo del nuevo usuario
       </Typography>
       <form className="mt-8 mb-2 w-80 max-w-screen-lg sm:w-96" action="">
         <div className="relative flex w-full max-w-[24rem]">
           <Input
           type="email"
-          label="Email Address"
+          label="Correo Electrónico"
           value={email}
           onChange={onChange}
           className="pr-20"
@@ -49,7 +61,7 @@ const AddUser = () => {
           disabled={!email}
           className="!absolute right-1 top-1 rounded"
         >
-          Invitar
+          Registrar
         </Button>
         </div>
       </form>
